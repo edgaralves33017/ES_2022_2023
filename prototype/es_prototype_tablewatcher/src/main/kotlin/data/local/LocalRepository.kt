@@ -184,6 +184,32 @@ class LocalRepository {
         return total
     }
 
+    fun removerPratoAReserva(reserva: Reserva, prato: Prato) : Boolean {
+        val json = readFromFile("Reservas")
+        val gson : Gson = Gson()
+        val listType = object : TypeToken<List<Reserva>>() {}.type
+        val list : MutableList<Reserva> =
+            if (!json.isNullOrEmpty())
+                gson.fromJson(json, listType)
+            else
+                mutableListOf()
+        list.forEach { reserv ->
+            if (reserv.id == reserva.id) {
+                reserv.listaPratos.forEach {
+                    if (it.id == prato.id) {
+                        reserv.listaPratos.remove(it)
+                        return@forEach
+                    }
+                }
+                return@forEach
+            }
+        }
+
+        val listjson = gson.toJson(list)
+        writeToFile("Reservas", listjson)
+        return true
+    }
+
     private fun readFromFile(fileName: String) : String {
         return File("src/main/kotlin/data/local/dbs/$fileName.txt").bufferedReader().use { it.readText() }
     }

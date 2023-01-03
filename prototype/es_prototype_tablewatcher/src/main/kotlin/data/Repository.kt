@@ -50,6 +50,10 @@ class Repository {
             return db.adicionarPratos(reserva, pratos)
       }
 
+      fun removerPratoAReserva(reserva: Reserva, prato: Prato) : Boolean {
+            return db.removerPratoAReserva(reserva, prato)
+      }
+
       fun fecharReserva(reserva: Reserva) : Double {
             return db.fecharReserva(reserva)
       }
