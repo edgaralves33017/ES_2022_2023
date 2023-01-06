@@ -10,11 +10,23 @@ import java.io.File
 import java.io.PrintWriter
 
 class LocalRepository {
+
+    fun login (username: String, password: String): Utilizador? {
+        val userList = obterUtilizadores()
+        userList.forEach {
+            if (it.username == username && it.password == password) {
+                return it
+            }
+        }
+        return null
+    }
     fun obterPratos() : List<Prato> {
         val json = readFromFile("Pratos")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Prato>>() {}.type
-        val list : List<Prato> = gson.fromJson(json, listType)
+        val list : MutableList<Prato> = gson.fromJson(json, listType)
+        list.sortByDescending { it.id }
+        list.reverse()
         return list
     }
 
@@ -22,7 +34,9 @@ class LocalRepository {
         val json = readFromFile("Utilizadores")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Utilizador>>() {}.type
-        val list : List<Utilizador> = gson.fromJson(json, listType)
+        val list : MutableList<Utilizador> = gson.fromJson(json, listType)
+        list.sortByDescending { it.id }
+        list.reverse()
         return list
     }
 
@@ -30,7 +44,9 @@ class LocalRepository {
         val json = readFromFile("Reservas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Reserva>>() {}.type
-        val list : List<Reserva> = gson.fromJson(json, listType)
+        val list : MutableList<Reserva> = gson.fromJson(json, listType)
+        list.sortByDescending { it.id }
+        list.reverse()
         return list
     }
 
@@ -38,8 +54,27 @@ class LocalRepository {
         val json = readFromFile("Mesas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Mesa>>() {}.type
-        val list : List<Mesa> = gson.fromJson(json, listType)
-        return list
+        val listMesas : MutableList<Mesa> = gson.fromJson(json, listType)
+
+        val listReservas = obterReservas()
+
+        val listMesasDisponiveis = mutableListOf<Mesa>()
+
+        listMesas.forEach { mesa ->
+            var isOccupied = false
+            listReservas.forEach {
+                if (mesa.id == it.mesaId)
+                    isOccupied = true
+            }
+            if (!isOccupied) {
+                listMesasDisponiveis.add(mesa)
+            }
+        }
+
+
+        listMesasDisponiveis.sortByDescending { it.id }
+        listMesasDisponiveis.reverse()
+        return listMesasDisponiveis
     }
 
     fun adicionarPrato(prato: Prato): Boolean {
@@ -137,7 +172,7 @@ class LocalRepository {
         return true
     }
 
-    fun adicionarPratos(reserva: Reserva, pratos: List<Prato>) : Boolean {
+    fun adicionarPratos(reserva: Reserva, pratos: MutableList<Prato>) : Boolean {
         val json = readFromFile("Reservas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Reserva>>() {}.type
@@ -146,9 +181,14 @@ class LocalRepository {
                 gson.fromJson(json, listType)
             else
                 mutableListOf()
-        list.forEach {
-            if (it.id == reserva.id) {
-                it.listaPratos.addAll(pratos)
+
+        list.forEach { reserv ->
+            if (reserv.id == reserva.id) {
+                reserv.listaPratos.sortByDescending { it.id }
+                reserv.listaPratos.reverse()
+                pratos.sortByDescending { it.id }
+                pratos.reverse()
+                reserv.listaPratos.addAll(pratos)
                 return@forEach
             }
         }
@@ -198,7 +238,6 @@ class LocalRepository {
                 reserv.listaPratos.forEach {
                     if (it.id == prato.id) {
                         reserv.listaPratos.remove(it)
-                        return@forEach
                     }
                 }
                 return@forEach

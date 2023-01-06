@@ -10,6 +10,10 @@ import data.model.Utilizador
 class Repository {
       private var db : LocalRepository = LocalRepository()
 
+      fun login (username: String, password: String) : Utilizador? {
+            return db.login(username, password)
+      }
+
       fun obterPratos() : List<Prato> {
             return db.obterPratos()
       }
@@ -47,7 +51,7 @@ class Repository {
       }
 
       fun adicionarPratos(reserva: Reserva, pratos: List<Prato>) : Boolean {
-            return db.adicionarPratos(reserva, pratos)
+            return db.adicionarPratos(reserva, pratos.toMutableList())
       }
 
       fun removerPratoAReserva(reserva: Reserva, prato: Prato) : Boolean {

@@ -1,5 +1,5 @@
-import ui.menu.Menu
+import ui.login.Login
 
 fun main(args: Array<String>) {
-    Menu()
+    Login()
 }

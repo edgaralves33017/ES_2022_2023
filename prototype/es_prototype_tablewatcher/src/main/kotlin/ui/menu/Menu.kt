@@ -1,18 +1,40 @@
 package ui.menu
 
-import data.model.Prato
-import ui.menu.viewmodel.MenuViewModel
+import data.model.Utilizador
+import ui.gerirpratos.GerirPratos
+import ui.gerirreservas.GerirReservas
+import ui.gerirutilizadores.GerirUtilizadores
+import ui.login.Login
 
-class Menu {
+class Menu(val user: Utilizador) {
     init {
+        startMenu()
+    }
 
-        val viewModel = MenuViewModel()
+    private fun startMenu() {
+        println("######################################")
+        println("Por favor escolha uma das seguintes opções: ")
+        println("1 - Gerir pratos;" +
+                "2 - Gerir reservas;")
+        if (user.isAdmin) {
+            println("e - Gerir utilizadores;")
+        }
+        println("b - Logout;")
 
-        println("Retrieving users...")
-        viewModel.obterUtilizadores().forEach { println(it.username) }
-        println("Writing new prato")
-        viewModel.adicionarPrato(Prato(1, "teste", 12.0))
-        println("Get pratos")
-        viewModel.obterPratos().forEach { println("${it.id}//${it.descricao}//${it.preco}") }
+        when(readln().trim()) {
+            "1" -> {
+                GerirPratos(user)
+            }
+            "2" -> {
+                GerirReservas(user)
+            }
+
+            "e" -> {
+                GerirUtilizadores(user)
+            }
+            "b" -> {
+                Login()
+            }
+        }
     }
 }
