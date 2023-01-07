@@ -24,10 +24,12 @@ class LocalRepository {
         val json = readFromFile("Pratos")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Prato>>() {}.type
-        val list : MutableList<Prato> = gson.fromJson(json, listType)
-        list.sortByDescending { it.id }
-        list.reverse()
-        return list
+        val list : MutableList<Prato>? = gson.fromJson(json, listType)
+        val ret = mutableListOf<Prato>()
+        list?.let { ret.addAll(list) }
+        ret.sortByDescending { it.id }
+        ret.reverse()
+        return ret
     }
 
     fun obterUtilizadores() : List<Utilizador> {
@@ -44,10 +46,12 @@ class LocalRepository {
         val json = readFromFile("Reservas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Reserva>>() {}.type
-        val list : MutableList<Reserva> = gson.fromJson(json, listType)
-        list.sortByDescending { it.id }
-        list.reverse()
-        return list
+        val list : MutableList<Reserva>? = gson.fromJson(json, listType)
+        val ret = mutableListOf<Reserva>()
+        list?.let { ret.addAll(list) }
+        ret.sortByDescending { it.id }
+        ret.reverse()
+        return ret
     }
 
     fun obterMesas() : List<Mesa> {
@@ -63,7 +67,7 @@ class LocalRepository {
         listMesas.forEach { mesa ->
             var isOccupied = false
             listReservas.forEach {
-                if (mesa.id == it.mesaId)
+                if (mesa.id == it.mesaId && !it.terminated)
                     isOccupied = true
             }
             if (!isOccupied) {
@@ -115,15 +119,17 @@ class LocalRepository {
         val json = readFromFile("Reservas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Reserva>>() {}.type
-        val list : MutableList<Reserva> =
+        val list : MutableList<Reserva>? =
             if (!json.isNullOrEmpty())
                 gson.fromJson(json, listType)
             else
                 mutableListOf()
-        list.add(reserva)
-        list.sortByDescending { it.id }
-        list.reverse()
-        val listjson = gson.toJson(list)
+        val ret = mutableListOf<Reserva>()
+        list?.let { ret.addAll(list) }
+        ret.add(reserva)
+        ret.sortByDescending { it.id }
+        ret.reverse()
+        val listjson = gson.toJson(ret)
         writeToFile("Reservas", listjson)
         return true
     }
@@ -137,12 +143,14 @@ class LocalRepository {
                 gson.fromJson(json, listType)
             else
                 mutableListOf()
+        val elementsToRemove = mutableListOf<Utilizador>()
         list.forEach {
             if(it.id == id) {
-                list.remove(it)
+                elementsToRemove.add(it)
                 return@forEach
             }
         }
+        elementsToRemove.forEach { list.remove(it) }
         list.sortByDescending { it.id }
         list.reverse()
         val listjson = gson.toJson(list)
@@ -159,12 +167,15 @@ class LocalRepository {
                 gson.fromJson(json, listType)
             else
                 mutableListOf()
+        val elementsToRemove: MutableList<Prato> = mutableListOf()
         list.forEach {
             if(it.id == id) {
-                list.remove(it)
+                elementsToRemove.add(it)
                 return@forEach
             }
         }
+        elementsToRemove.forEach { list.remove(it) }
+
         list.sortByDescending { it.id }
         list.reverse()
         val listjson = gson.toJson(list)
@@ -172,7 +183,7 @@ class LocalRepository {
         return true
     }
 
-    fun adicionarPratos(reserva: Reserva, pratos: MutableList<Prato>) : Boolean {
+    fun adicionarPratos(reservaID: Int, pratos: MutableList<Prato>) : Boolean {
         val json = readFromFile("Reservas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Reserva>>() {}.type
@@ -183,12 +194,10 @@ class LocalRepository {
                 mutableListOf()
 
         list.forEach { reserv ->
-            if (reserv.id == reserva.id) {
+            if (reserv.id == reservaID) {
+                reserv.listaPratos.addAll(pratos)
                 reserv.listaPratos.sortByDescending { it.id }
                 reserv.listaPratos.reverse()
-                pratos.sortByDescending { it.id }
-                pratos.reverse()
-                reserv.listaPratos.addAll(pratos)
                 return@forEach
             }
         }
@@ -198,7 +207,7 @@ class LocalRepository {
         return true
     }
 
-    fun fecharReserva(reserva: Reserva) : Double {
+    fun fecharReserva(id: Int) : Double {
         val json = readFromFile("Reservas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Reserva>>() {}.type
@@ -209,8 +218,8 @@ class LocalRepository {
                 mutableListOf()
         var total : Double = 0.0
         list.forEach { reserv ->
-            if (reserv.id == reserva.id) {
-
+            if (reserv.id == id) {
+                reserv.terminated = true
                 reserv.listaPratos.forEach {
                     total += it.preco
                 }
@@ -224,7 +233,30 @@ class LocalRepository {
         return total
     }
 
-    fun removerPratoAReserva(reserva: Reserva, prato: Prato) : Boolean {
+    fun calcularTotalReserva(id: Int) : Double {
+        val json = readFromFile("Reservas")
+        val gson : Gson = Gson()
+        val listType = object : TypeToken<List<Reserva>>() {}.type
+        val list : MutableList<Reserva> =
+            if (!json.isNullOrEmpty())
+                gson.fromJson(json, listType)
+            else
+                mutableListOf()
+        var total : Double = 0.0
+        list.forEach { reserv ->
+            if (reserv.id == id) {
+
+                reserv.listaPratos.forEach {
+                    total += it.preco
+                }
+                reserv.total = total
+                return@forEach
+            }
+        }
+        return total
+    }
+
+    fun removerPratoAReserva(reservaID: Int, pratos: List<Prato>) : Boolean {
         val json = readFromFile("Reservas")
         val gson : Gson = Gson()
         val listType = object : TypeToken<List<Reserva>>() {}.type
@@ -234,19 +266,53 @@ class LocalRepository {
             else
                 mutableListOf()
         list.forEach { reserv ->
-            if (reserv.id == reserva.id) {
-                reserv.listaPratos.forEach {
-                    if (it.id == prato.id) {
-                        reserv.listaPratos.remove(it)
+            if (reserv.id == reservaID) {
+                reserv.listaPratos.forEach { pratoReserva->
+                    pratos.forEach {
+                        if (pratoReserva.id == it.id) {
+                            reserv.listaPratos.remove(it)
+                        }
                     }
                 }
-                return@forEach
+                reserv.listaPratos.sortByDescending { it.id }
+                reserv.listaPratos.reverse()
             }
         }
 
         val listjson = gson.toJson(list)
         writeToFile("Reservas", listjson)
         return true
+    }
+
+    fun defaultValues() {
+        val defaultMesas = "[\n" +
+                "  {\n" +
+                "    \"id\":1,\n" +
+                "    \"lugares\": 2\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\":2,\n" +
+                "    \"lugares\": 4\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\":3,\n" +
+                "    \"lugares\": 10\n" +
+                "  }\n" +
+                "]"
+        val defaultPratos = ""
+        val defaultReservas = ""
+        val defaultUtilizadores = "[\n" +
+                "   {\n" +
+                "      \"id\":0,\n" +
+                "      \"username\":\"admin\",\n" +
+                "      \"password\":\"admin\",\n" +
+                "      \"isAdmin\":true\n" +
+                "   }\n" +
+                "]"
+        writeToFile("Mesas", defaultMesas)
+        writeToFile("Pratos", defaultPratos)
+        writeToFile("Reservas", defaultReservas)
+        writeToFile("Utilizadores", defaultUtilizadores)
     }
 
     private fun readFromFile(fileName: String) : String {

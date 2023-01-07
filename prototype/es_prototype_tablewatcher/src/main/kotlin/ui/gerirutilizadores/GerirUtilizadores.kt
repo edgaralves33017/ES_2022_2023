@@ -54,7 +54,8 @@ class GerirUtilizadores(val user: Utilizador) {
 
     private fun startListarUtilizadores() {
         println("")
-        viewModel.obterUtilizadores().forEach { println("[${it.id}] ::> ${it.username} ::> ${it.isAdmin}") }
+        viewModel.obterUtilizadores().forEach { println("ID: [${it.id}] ::> Username: ${it.username} ::> Admin?: ${it.isAdmin}") }
+        startMenu()
     }
 
     private fun startAdicionarUtilizadores() {
@@ -63,14 +64,14 @@ class GerirUtilizadores(val user: Utilizador) {
         val username = readln()
         println("Introduza a password: ")
         val password = readln()
-        println("Utilizador é admin?: Y ou N")
+        println("Utilizador é admin?: Y ou N (default)")
         val isAdmin = readln()
         val isAdminBool = if (isAdmin.uppercase() != "Y" && isAdmin.uppercase() != "N") {
             false
         } else {
             isAdmin.uppercase() == "Y"
         }
-        viewModel.adicionarUtilizador(Utilizador(viewModel.obterUtilizadores().last().id+1, username, password, isAdminBool))
+        viewModel.adicionarUtilizador(username, password, isAdminBool)
         println("Utilizador adicionado com sucesso!")
         startMenu()
     }
@@ -78,8 +79,8 @@ class GerirUtilizadores(val user: Utilizador) {
     private fun startRemoverUtilizador() {
         println("")
         val listUtilizadores = viewModel.obterUtilizadores()
-        listUtilizadores.forEach { println("[${it.id}] ::> ${it.username} ::> ${it.isAdmin}") }
-        println("Indique o ID do utilizador que deseja remover ou '/b'/ para voltar para trás: ")
+        listUtilizadores.forEach { println("ID: [${it.id}] ::> Username: ${it.username} ::> Admin?: ${it.isAdmin}") }
+        println("Indique o ID do utilizador que deseja remover ou 'b' para voltar para trás: ")
         val idToRemove = readln()
         val utilizadorToRemove = listUtilizadores.filter { it.id ==  idToRemove.toInt()}
         if (utilizadorToRemove.isEmpty()) {

@@ -11,7 +11,10 @@ class GerirPratosViewModel {
         return repository.obterPratos();
     }
 
-    fun adicionarPrato(prato:Prato) : Boolean{
+    fun adicionarPrato(desc: String, preco: String) : Boolean{
+        val listPratos = obterPratos()
+        val newId = if (listPratos.isEmpty()) 0 else listPratos.last().id+1
+        val prato = Prato(newId, desc, preco.toDouble())
         return repository.adicionarPrato(prato)
     }
 

@@ -11,8 +11,9 @@ class GerirUtilizadoresViewModel {
         return repository.obterUtilizadores()
     }
 
-    fun adicionarUtilizador(utilizador: Utilizador) : Boolean{
-        return repository.adicionarUtilizador(utilizador)
+    fun adicionarUtilizador(username: String, password: String, isAdmin: Boolean) : Boolean{
+        val user = Utilizador(obterUtilizadores().last().id+1, username, password, isAdmin)
+        return repository.adicionarUtilizador(user)
     }
 
     fun removerUtilizador(id: Int) : Boolean {

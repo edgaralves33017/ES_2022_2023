@@ -53,7 +53,12 @@ class GerirPratos(val user:Utilizador) {
 
     private fun startListarPratos() {
         println("")
-        viewModel.obterPratos().forEach { println("[${it.id}] ::> ${it.descricao} ::> ${it.preco}") }
+        val pratos = viewModel.obterPratos()
+        if(pratos.isEmpty())
+            println("Sem pratos disponíveis!")
+        else
+            pratos.forEach { println("[${it.id}] ::> ${it.descricao} ::> ${it.preco}") }
+        startMenu()
     }
 
     private fun startAdicionarPrato() {
@@ -62,7 +67,7 @@ class GerirPratos(val user:Utilizador) {
         val desc = readln()
         println("Introduza o preço do prato: ")
         val preco = readln()
-        viewModel.adicionarPrato(Prato(viewModel.obterPratos().last().id+1, desc, preco.toDouble()))
+        viewModel.adicionarPrato(desc, preco)
         println("Prato adicionado com sucesso!")
         startMenu()
     }
@@ -84,7 +89,7 @@ class GerirPratos(val user:Utilizador) {
             else
                 println("Ocorreu um erro! Por favor tente novamente!")
 
-            startRemoverPrato()
+            startMenu()
         }
     }
 }
