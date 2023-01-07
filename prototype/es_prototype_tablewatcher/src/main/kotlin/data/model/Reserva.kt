@@ -7,5 +7,6 @@ data class Reserva(
     val nomeClient: String,
     val contactoCliente: String,
     val listaPratos: MutableList<Prato>,
+    var terminated: Boolean,
     var total: Double
 )

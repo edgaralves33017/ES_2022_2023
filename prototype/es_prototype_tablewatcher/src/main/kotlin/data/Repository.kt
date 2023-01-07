@@ -50,15 +50,23 @@ class Repository {
             return db.removerPrato(id)
       }
 
-      fun adicionarPratos(reserva: Reserva, pratos: List<Prato>) : Boolean {
-            return db.adicionarPratos(reserva, pratos.toMutableList())
+      fun adicionarPratos(reservaID: Int , pratos: List<Prato>) : Boolean {
+            return db.adicionarPratos(reservaID, pratos.toMutableList())
       }
 
-      fun removerPratoAReserva(reserva: Reserva, prato: Prato) : Boolean {
-            return db.removerPratoAReserva(reserva, prato)
+      fun removerPratoAReserva(reservaID: Int, pratos: List<Prato>) : Boolean {
+            return db.removerPratoAReserva(reservaID, pratos)
       }
 
-      fun fecharReserva(reserva: Reserva) : Double {
-            return db.fecharReserva(reserva)
+      fun fecharReserva(id: Int) : Double {
+            return db.fecharReserva(id)
+      }
+
+      fun calcularTotalReserva(id: Int) : Double{
+            return db.calcularTotalReserva(id)
+      }
+
+      fun defaultValues() {
+            db.defaultValues()
       }
 }
