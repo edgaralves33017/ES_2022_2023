@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MenuFragment">
+
+    <!-- MENU FRAGMENT -->
+    <fragment
+        android:id="@+id/MenuFragment"
+        android:name="com.example.es_tablewatcher.ui.menu.MenuFragment"
+        android:label="@string/fragment_menu"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/action_MenuFragment_to_GerirPratosFragment"
+            app:destination="@id/GerirPratosFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_GerirReservas"
+            app:destination="@id/GerirReservasFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_GerirUtilizadores"
+            app:destination="@id/GerirUtilizadoresFragment" />
+    </fragment>
+
+    <!-- GERIR PRATOS -->
+    <fragment
+        android:id="@+id/GerirPratosFragment"
+        android:name="com.example.es_tablewatcher.ui.gerirpratos.GerirPratosFragment"
+        android:label="@string/fragment_gerirpratos"
+        tools:layout="@layout/fragment_gerirpratos">
+        <action
+            android:id="@+id/action_GerirPratosFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+    </fragment>
+
+    <!-- GERIR RESERVAS -->
+    <fragment
+        android:id="@+id/GerirReservasFragment"
+        android:name="com.example.es_tablewatcher.ui.gerirreservas.GerirReservasFragment"
+        android:label="@string/fragment_gerirreservas"
+        tools:layout="@layout/fragment_gerirreservas">
+        <action
+            android:id="@+id/action_GerirReservasFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+    </fragment>
+
+    <!-- GERIR UTILIZADORES -->
+    <fragment
+        android:id="@+id/GerirUtilizadoresFragment"
+        android:name="com.example.es_tablewatcher.ui.gerirutilizadores.GerirUtilizadoresFragment"
+        android:label="@string/fragment_gerirutilizadores"
+        tools:layout="@layout/fragment_gerirutilizadores">
+        <action
+            android:id="@+id/action_GerirUtilizadoresFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+    </fragment>
+</navigation>

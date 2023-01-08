@@ -1,9 +1,16 @@
 # ES_2022_2023
 
-## Running the project
+## Correr o .jar
 
-After installing Java SDK:
+Depois de instalar o JDK:
 
 java -jar es_prototype_tablewatcher.jar
 
-on terminal.
+no terminal.
+
+## Credenciais
+
+Por defeito, já existe um utilizador administrador na aplicação:
+
+Nome de utilizador: admin
+Password: admin
