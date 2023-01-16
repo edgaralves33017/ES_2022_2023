@@ -1,15 +1,17 @@
 package com.example.es_tablewatcher.data.local
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import android.content.Context
 import com.example.es_tablewatcher.data.model.Mesa
 import com.example.es_tablewatcher.data.model.Prato
 import com.example.es_tablewatcher.data.model.Reserva
 import com.example.es_tablewatcher.data.model.Utilizador
+import com.example.es_tablewatcher.ui.MainActivity
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.PrintWriter
 
-class LocalRepository {
+class LocalRepository(private val context: Context) {
 
     fun login (username: String, password: String): Utilizador? {
         val userList = obterUtilizadores()
@@ -284,7 +286,12 @@ class LocalRepository {
         return true
     }
 
-    fun defaultValues() {
+    fun checkFiles() {
+        val mesasFile: File = File(context.cacheDir, "Mesas.txt")
+        val pratosFile: File = File(context.cacheDir, "Pratos.txt")
+        val reservasFile: File = File(context.cacheDir, "Reservas.txt")
+        val utilizadoresFile: File = File(context.cacheDir, "Utilizadores.txt")
+
         val defaultMesas = "[\n" +
                 "  {\n" +
                 "    \"id\":1,\n" +
@@ -309,18 +316,31 @@ class LocalRepository {
                 "      \"isAdmin\":true\n" +
                 "   }\n" +
                 "]"
-        writeToFile("Mesas", defaultMesas)
-        writeToFile("Pratos", defaultPratos)
-        writeToFile("Reservas", defaultReservas)
-        writeToFile("Utilizadores", defaultUtilizadores)
+        if (!mesasFile.exists()) {
+            mesasFile.createNewFile()
+            writeToFile("Mesas", defaultMesas)
+        }
+        if(!pratosFile.exists()) {
+            pratosFile.createNewFile()
+            writeToFile("Pratos", defaultPratos)
+        }
+        if(!reservasFile.exists()) {
+            reservasFile.createNewFile()
+            writeToFile("Reservas", defaultReservas)
+        }
+        if(!utilizadoresFile.exists()) {
+            utilizadoresFile.createNewFile()
+            writeToFile("Utilizadores", defaultUtilizadores)
+        }
     }
 
     private fun readFromFile(fileName: String) : String {
-        return File("project/app/src/main/java/com/example/es_tablewatcher/data/local/dbs/$fileName.txt").bufferedReader().use { it.readText() }
+
+        return MainActivity.context.assets.open("${fileName}.txt").bufferedReader().use { it.readText() }
     }
 
     private fun writeToFile(fileName: String, data: String) {
-        val pw = PrintWriter("project/app/src/main/java/com/example/es_tablewatcher/data/local/dbs/$fileName.txt")
+        val pw = PrintWriter(File(context.cacheDir, "$fileName.txt"));
         pw.write(data)
         pw.close()
     }

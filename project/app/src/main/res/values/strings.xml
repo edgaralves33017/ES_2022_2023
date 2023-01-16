@@ -13,4 +13,5 @@
     <string name="fragment_gerirpratos">Fragment GerirPratos</string>
     <string name="fragment_gerirreservas">Fragment GerirReservas</string>
     <string name="fragment_gerirutilizadores">Fragment GerirUtilizadores</string>
+    <string name="fragment_adicionarprato">Fragment AdicionarPrato</string>
 </resources>

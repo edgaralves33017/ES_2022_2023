@@ -1,13 +1,14 @@
 package com.example.es_tablewatcher.data
 
+import android.content.Context
 import com.example.es_tablewatcher.data.local.LocalRepository
 import com.example.es_tablewatcher.data.model.Mesa
 import com.example.es_tablewatcher.data.model.Prato
 import com.example.es_tablewatcher.data.model.Reserva
 import com.example.es_tablewatcher.data.model.Utilizador
 
-class Repository {
-      private var db : LocalRepository = LocalRepository()
+class Repository(context: Context) {
+      private var db : LocalRepository = LocalRepository(context)
 
       fun login (username: String, password: String) : Utilizador? {
             return db.login(username, password)
@@ -65,7 +66,7 @@ class Repository {
             return db.calcularTotalReserva(id)
       }
 
-      fun defaultValues() {
-            db.defaultValues()
+      fun checkFiles() {
+            db.checkFiles()
       }
 }

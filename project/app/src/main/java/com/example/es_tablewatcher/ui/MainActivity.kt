@@ -1,5 +1,6 @@
 package com.example.es_tablewatcher.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -16,9 +17,15 @@ import com.example.es_tablewatcher.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        lateinit var context: Context
+    }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var user : Utilizador
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         changeAppBarTitle("Bem vindo, ${user.username}")
+
+        context = this
     }
 
     fun changeAppBarTitle(title: String) {

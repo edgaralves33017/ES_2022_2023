@@ -31,6 +31,20 @@
         <action
             android:id="@+id/action_GerirPratosFragment_to_MenuFragment"
             app:destination="@id/MenuFragment" />
+        <action
+            android:id="@+id/action_GerirPratosFragment_to_AdicionarPratoFragment"
+            app:destination="@id/AdicionarPratoFragment"/>
+    </fragment>
+
+    <!-- ADICIONAR PRATO -->
+    <fragment
+        android:id="@+id/AdicionarPratoFragment"
+        android:name="com.example.es_tablewatcher.ui.gerirpratos.AdicionarPratoFragment"
+        android:label="@string/fragment_adicionarprato"
+        tools:layout="@layout/fragment_adicionarprato">
+        <action
+            android:id="@+id/action_AdicionarPratoFragment_to_GerirPratosFragment"
+            app:destination="@id/GerirPratosFragment"/>
     </fragment>
 
     <!-- GERIR RESERVAS -->
