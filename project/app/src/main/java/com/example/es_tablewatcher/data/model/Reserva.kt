@@ -1,7 +1,9 @@
 package com.example.es_tablewatcher.data.model
 
-import com.example.es_tablewatcher.data.model.Prato
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Reserva(
     val id : Int,
     val mesaId: Int,
@@ -11,4 +13,4 @@ data class Reserva(
     val listaPratos: MutableList<Prato>,
     var terminated: Boolean,
     var total: Double
-)
+) : Parcelable

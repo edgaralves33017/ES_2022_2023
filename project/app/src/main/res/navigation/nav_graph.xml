@@ -56,7 +56,36 @@
         <action
             android:id="@+id/action_GerirReservasFragment_to_MenuFragment"
             app:destination="@id/MenuFragment" />
+        <action
+            android:id="@+id/action_GerirReservasFragment_to_AdicionarReservaFragment"
+            app:destination="@id/AdicionarReservaFragment" />
+        <action
+            android:id="@+id/action_GerirReservasFragment_to_GerirPratosAReservaFragment"
+            app:destination="@id/GerirPratosAReservaFragment" />
     </fragment>
+
+    <!-- ADICIONAR RESERVA -->
+    <fragment
+        android:id="@+id/AdicionarReservaFragment"
+        android:name="com.example.es_tablewatcher.ui.gerirreservas.AdicionarReservaFragment"
+        android:label="@string/fragment_adicionarreservas"
+        tools:layout="@layout/fragment_adicionarreserva">
+        <action
+            android:id="@+id/action_AdicionarReservaFragment_to_GerirReservasFragment"
+            app:destination="@id/GerirReservasFragment" />
+    </fragment>
+
+    <!-- GerirPratosAReserva -->
+    <fragment
+        android:id="@+id/GerirPratosAReservaFragment"
+        android:name="com.example.es_tablewatcher.ui.gerirreservas.GerirPratosAReservaFragment"
+        android:label="@string/fragment_gerirpratosareserva"
+        tools:layout="@layout/fragment_gerirpratosareserva">
+        <action
+            android:id="@+id/action_GerirPratosAReservaFragment_to_GerirReservasFragment"
+            app:destination="@id/GerirReservasFragment" />
+    </fragment>
+
 
     <!-- GERIR UTILIZADORES -->
     <fragment
