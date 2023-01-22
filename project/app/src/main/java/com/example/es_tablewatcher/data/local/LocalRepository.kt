@@ -336,7 +336,7 @@ class LocalRepository(private val context: Context) {
 
     private fun readFromFile(fileName: String) : String {
 
-        return MainActivity.context.assets.open("${fileName}.txt").bufferedReader().use { it.readText() }
+        return File(context.cacheDir, "$fileName.txt").bufferedReader().use { it.readText() }
     }
 
     private fun writeToFile(fileName: String, data: String) {

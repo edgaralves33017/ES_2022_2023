@@ -67,5 +67,19 @@
         <action
             android:id="@+id/action_GerirUtilizadoresFragment_to_MenuFragment"
             app:destination="@id/MenuFragment" />
+        <action
+            android:id="@+id/action_GerirUtilizadoresFragment_to_AdicionarUtilizadorFragment"
+            app:destination="@id/AdicionarUtilizadorFragment"/>
+    </fragment>
+
+    <!-- ADICIONAR UTILIZADORES -->
+    <fragment
+        android:id="@+id/AdicionarUtilizadorFragment"
+        android:name="com.example.es_tablewatcher.ui.gerirutilizadores.AdicionarUtilizadorFragment"
+        android:label="@string/fragment_adicionarutilizador"
+        tools:layout="@layout/fragment_adicionarutilizador">
+        <action
+            android:id="@+id/action_AdicionarUtilizadorFragment_to_GerirUtilizadoresFragment"
+            app:destination="@id/GerirUtilizadoresFragment"/>
     </fragment>
 </navigation>

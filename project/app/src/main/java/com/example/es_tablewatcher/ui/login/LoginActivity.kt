@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
                 intent = Intent(this, MainActivity::class.java)
                 val bundle = Bundle()
                 bundle.putParcelable("user", user)
+                intent.putExtras(bundle)
                 startActivity(intent)
                 finish()
             }

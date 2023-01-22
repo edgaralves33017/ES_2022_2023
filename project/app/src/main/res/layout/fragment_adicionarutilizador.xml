@@ -6,36 +6,44 @@
     android:layout_margin="10dp">
 
     <TextView
-        android:id="@+id/prato_desc"
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Descrição:"
+        android:text="Nome de Utilizador:"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/prato_desc_edit"
+        android:id="@+id/username_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/prato_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <TextView
-        android:id="@+id/prato_preco"
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Preço:"
+        android:text="Password:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prato_desc_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/username_edit" />
 
     <EditText
-        android:id="@+id/prato_preco_edit"
+        android:id="@+id/password_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@+id/prato_preco" />
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <CheckBox
+        android:id="@+id/admin_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_adicionarprato"
+        android:id="@+id/btn_adicionarutilizador"
         android:text="Finalizar"
         android:textColor="@color/white"
         android:layout_width="match_parent"

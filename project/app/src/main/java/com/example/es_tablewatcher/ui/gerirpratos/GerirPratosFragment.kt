@@ -34,8 +34,12 @@ class GerirPratosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
         (MainActivity.context as MainActivity).changeAppBarTitle("Gerir Pratos")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initViews()
     }
 
     private fun initViews() {
@@ -58,8 +62,6 @@ class GerirPratosFragment : Fragment() {
     }
 
     private fun removeClickListener (prato: Prato) {
-        pratoList.remove(prato)
-        viewModel.removerPrato(prato.id)
-        binding.listPratos.adapter?.notifyDataSetChanged()
+        viewModel.updatePrato(pratoList, prato, binding.listPratos.adapter)
     }
 }

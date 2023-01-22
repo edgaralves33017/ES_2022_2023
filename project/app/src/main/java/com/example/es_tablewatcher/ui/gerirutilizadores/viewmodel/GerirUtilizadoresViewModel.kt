@@ -1,5 +1,6 @@
 package ui.gerirutilizadores.viewmodel
 
+import androidx.recyclerview.widget.RecyclerView
 import com.example.es_tablewatcher.App
 import com.example.es_tablewatcher.data.model.Utilizador
 
@@ -9,12 +10,17 @@ class GerirUtilizadoresViewModel {
         return App.repository.obterUtilizadores()
     }
 
-    fun adicionarUtilizador(username: String, password: String, isAdmin: Boolean) : Boolean{
-        val user = Utilizador(obterUtilizadores().last().id+1, username, password, isAdmin)
-        return App.repository.adicionarUtilizador(user)
-    }
-
     fun removerUtilizador(id: Int) : Boolean {
         return App.repository.removerUtilizador(id)
+    }
+
+    fun updateUtilizador(
+        utilizadorList: MutableList<Utilizador>,
+        utilizador: Utilizador,
+        adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>?
+    ) {
+        utilizadorList.remove(utilizador)
+        removerUtilizador(utilizador.id)
+        adapter?.notifyDataSetChanged()
     }
 }
