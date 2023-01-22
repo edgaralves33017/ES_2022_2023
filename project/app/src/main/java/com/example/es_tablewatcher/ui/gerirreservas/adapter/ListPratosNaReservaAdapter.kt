@@ -18,7 +18,7 @@ class ListPratosNaReservaAdapter(context: Context, data: List<Prato>, private va
         LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = mInflater.inflate(R.layout.item_listpratowithadd, parent, false)
+        val view: View = mInflater.inflate(R.layout.item_listpratoreserva, parent, false)
         return ViewHolder(view)
     }
 

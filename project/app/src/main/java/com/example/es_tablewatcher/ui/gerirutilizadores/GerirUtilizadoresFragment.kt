@@ -55,7 +55,7 @@ class GerirUtilizadoresFragment : Fragment() {
         binding.listUtilizadores.layoutManager = LinearLayoutManager(context)
         val adapter = ListUtilizadoresAdapter(context!!, userList, user.isAdmin, ::removeClickListener)
         binding.listUtilizadores.adapter = adapter
-
+        userList.clear()
         userList.addAll(viewModel.obterUtilizadores())
         binding.listUtilizadores.adapter?.notifyDataSetChanged()
     }

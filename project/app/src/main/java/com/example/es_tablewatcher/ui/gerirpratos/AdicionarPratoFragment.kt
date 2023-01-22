@@ -32,7 +32,7 @@ class AdicionarPratoFragment: Fragment() {
 
     private fun initViews() {
         binding.btnAdicionarprato.setOnClickListener {
-            viewModel.adicionarPrato(binding.pratoDescEdit.text.toString(), binding.pratoPreco.text.toString())
+            viewModel.adicionarPrato(binding.pratoDescEdit.text.toString(), binding.pratoPrecoEdit.text.toString())
             findNavController().navigateUp()
         }
     }

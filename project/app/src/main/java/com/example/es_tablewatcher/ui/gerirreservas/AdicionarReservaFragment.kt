@@ -42,7 +42,7 @@ class AdicionarReservaFragment : Fragment() {
         binding.btnAdicionarreserva.setOnClickListener {
             val mesaSelected = (binding.mesasList.adapter as ListMesaAdapterWithSelectorAdapter).getSelectedMesa()
             if (mesaSelected == null){
-                Toast.makeText(this.context, "Precisa de selecionar uma mesa antes de prosseguir!", Toast.LENGTH_SHORT)
+                Toast.makeText(this.context, "Precisa de selecionar uma mesa antes de prosseguir!", Toast.LENGTH_SHORT).show()
             }
             else {
                 viewModel.adicionarReserva(mesaSelected.id, binding.nomeClienteEdit.text.toString(), binding.contactoClienteEdit.text.toString())

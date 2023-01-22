@@ -56,7 +56,7 @@ class GerirPratosFragment : Fragment() {
         binding.listPratos.layoutManager = LinearLayoutManager(context)
         val adapter = ListPratosAdapter(context!!, pratoList, user.isAdmin, ::removeClickListener)
         binding.listPratos.adapter = adapter
-
+        pratoList.clear()
         pratoList.addAll(viewModel.obterPratos())
         binding.listPratos.adapter?.notifyDataSetChanged()
     }

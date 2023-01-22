@@ -36,7 +36,7 @@ class GerirReservasFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (MainActivity.context as MainActivity).changeAppBarTitle("Gerir Pratos")
+        (MainActivity.context as MainActivity).changeAppBarTitle("Gerir Reservas")
     }
 
     override fun onResume() {
@@ -52,12 +52,14 @@ class GerirReservasFragment : Fragment() {
         binding.reservasList.layoutManager = LinearLayoutManager(context)
         val reservaAdapter = ListReservaAdapter(context!!, reservasList, ::detailsReserva)
         binding.reservasList.adapter = reservaAdapter
+        reservasList.clear()
         reservasList.addAll(viewModel.obterReservas())
         binding.reservasList.adapter?.notifyDataSetChanged()
 
         binding.mesasList.layoutManager = LinearLayoutManager(context)
         val mesaAdapter = ListMesaAdapter(context!!, mesasList)
         binding.mesasList.adapter = mesaAdapter
+        mesasList.clear()
         mesasList.addAll(viewModel.obterMesas())
         binding.mesasList.adapter?.notifyDataSetChanged()
     }

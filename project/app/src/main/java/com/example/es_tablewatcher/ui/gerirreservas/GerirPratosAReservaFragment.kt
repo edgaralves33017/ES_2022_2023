@@ -35,7 +35,7 @@ class GerirPratosAReservaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (MainActivity.context as MainActivity).changeAppBarTitle("Adicionar Pratos a Reserva")
+        (MainActivity.context as MainActivity).changeAppBarTitle("Gerir Reserva")
     }
 
     override fun onResume() {
@@ -53,9 +53,13 @@ class GerirPratosAReservaFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.data.text = reserva.data
+        binding.nomeCliente.text = reserva.nomeClient
+        binding.mesa.text = "Mesa: ${reserva.mesaId}"
+
         binding.calculate.setOnClickListener {
             val total : Double = viewModel.calcularTotalReserva(reserva.id)
-            Toast.makeText(this.context, "Total: $total", Toast.LENGTH_SHORT)
+            Toast.makeText(this.context, "Total: $total", Toast.LENGTH_SHORT).show()
         }
 
         binding.pratosnareserva.layoutManager = LinearLayoutManager(context)

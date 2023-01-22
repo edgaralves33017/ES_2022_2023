@@ -15,23 +15,28 @@ class ListMesaAdapterWithSelectorAdapter(val context: Context, data: List<Mesa>)
     private val mData: List<Mesa> = data
     private val mInflater: LayoutInflater =
         LayoutInflater.from(context)
-    private var selectedMesa : Mesa? = null
+
     private var selectedPosition : Int = -1
-    private var selectedView : ViewHolder? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = mInflater.inflate(R.layout.item_listreserva, parent, false)
+        val view: View = mInflater.inflate(R.layout.item_listmesa, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mesa = mData[position]
-        holder.mesa_id.text = mesa.id.toString()
-        holder.mesa_lugares.text = mesa.lugares.toString()
+        holder.mesa_id.text = "ID: ${mesa.id}"
+        holder.mesa_lugares.text = "Lugares: ${mesa.lugares}"
         holder.container.setOnClickListener {
-            checkSelection(holder, position)
+            selectedPosition = holder.adapterPosition
+            notifyDataSetChanged()
         }
-        checkSelection(holder, position)
+        if (selectedPosition == position) {
+            holder.container.setBackgroundColor(context.getColor(R.color.teal_200))
+        }
+        else {
+            holder.container.setBackgroundColor(context.getColor(R.color.white))
+        }
     }
 
     override fun getItemCount(): Int {
@@ -39,27 +44,10 @@ class ListMesaAdapterWithSelectorAdapter(val context: Context, data: List<Mesa>)
     }
 
     fun getSelectedMesa() : Mesa? {
-        return selectedMesa
-    }
-
-    private fun checkSelection(holder: ViewHolder, position: Int) {
-        if (selectedMesa != null) {
-            if (selectedMesa!!.id == mData[position].id) {
-                holder.container.setBackgroundColor(context.getColor(R.color.white))
-                selectedMesa = null
-                selectedView = null
-                selectedPosition = -1
-                notifyItemChanged(position)
-            }
-            else {
-                selectedView?.container?.setBackgroundColor(context.getColor(R.color.white))
-                notifyItemChanged(selectedPosition)
-                selectedPosition = position
-                selectedMesa = mData[position]
-                selectedView = holder
-                holder.container.setBackgroundColor(context.getColor(androidx.transition.R.color.material_blue_grey_800))
-                notifyItemChanged(position)
-            }
+        return try {
+            mData[selectedPosition]
+        } catch (e: Exception){
+            null
         }
     }
 

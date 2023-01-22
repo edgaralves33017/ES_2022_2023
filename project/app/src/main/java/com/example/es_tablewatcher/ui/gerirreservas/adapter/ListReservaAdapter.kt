@@ -31,10 +31,6 @@ class ListReservaAdapter(context: Context, data: List<Reserva>, private val cont
         holder.container.setOnClickListener {
             containerClickListener(reserva)
         }
-        holder.deleteBtn.visibility = View.VISIBLE
-        holder.deleteBtn.setOnClickListener {
-            deleteClickListener(reserva)
-        }
     }
 
     override fun getItemCount(): Int {
@@ -47,14 +43,12 @@ class ListReservaAdapter(context: Context, data: List<Reserva>, private val cont
         var data: TextView
         var nome_cliente: TextView
         var container: ConstraintLayout
-        var deleteBtn: ImageView
 
         init {
             mesa_id = itemView.findViewById(R.id.mesa_id)
             data = itemView.findViewById(R.id.data)
             nome_cliente = itemView.findViewById(R.id.nome_cliente)
             container = itemView.findViewById(R.id.container)
-            deleteBtn = itemView.findViewById(R.id.delete)
         }
     }
 }

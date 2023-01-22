@@ -16,14 +16,14 @@ class ListMesaAdapter(context: Context, data: List<Mesa>) :
         LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = mInflater.inflate(R.layout.item_listreserva, parent, false)
+        val view: View = mInflater.inflate(R.layout.item_listmesa, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val mesa = mData[position]
-        holder.mesa_id.text = mesa.id.toString()
-        holder.mesa_lugares.text = mesa.lugares.toString()
+        holder.mesa_id.text = "ID: ${mesa.id}"
+        holder.mesa_lugares.text = "Lugares: ${mesa.lugares}"
     }
 
     override fun getItemCount(): Int {

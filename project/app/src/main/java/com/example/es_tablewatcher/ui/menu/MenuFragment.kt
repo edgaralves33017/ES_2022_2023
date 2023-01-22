@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.es_tablewatcher.R
 import com.example.es_tablewatcher.data.model.Utilizador
 import com.example.es_tablewatcher.databinding.FragmentMenuBinding
+import com.example.es_tablewatcher.ui.MainActivity
 
 class MenuFragment : Fragment() {
 
@@ -27,6 +28,11 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (MainActivity.context as MainActivity).changeAppBarTitle("Bem vindo, ${user.username}!")
     }
 
     private fun initViews() {
